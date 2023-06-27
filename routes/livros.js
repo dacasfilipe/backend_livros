@@ -26,7 +26,7 @@ router.post("/",async (req,res)=>{
     //const ano = req.params.ano;
     //const preco = req.params.preco;
     //const foto = req.params.foto;
-    
+   
     const {titulo, autor, ano, preco, foto} = req.body;
     
     //se algum dos campos não foi passado, irá enviar uma mensagem de erro ao retornar
