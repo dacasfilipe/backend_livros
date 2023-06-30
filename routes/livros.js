@@ -49,7 +49,7 @@ router.post("/",async (req,res)=>{
 //método put é usado para alteração. id indica o registro a ser alterado
 router.put("/:id",async(req,res) => {
     const id = req.params.id; //
-    const {preco} = req.body; //campo a ser alterado
+    const {preco} = req.body; // { "preco": "19.99" }
     try{
         //altera o campo preco, no registro cujo id coincidir com o parametro passado
         await dbKnex("livros").update({preco}).where({id});
@@ -69,6 +69,19 @@ router.delete("/:id",async(req,res) => {
     }catch(error){
         res.status(400).json({msg:error.message}); //retorna status de erro e msg
     }
+});
+
+//Filtro por titulo ou por autor
+router.get("/filtro/:palavra", async(req,res)=> {
+    const palavra = req.params.palavra; // palavra ou titulo a pesquisar
+    try{
+            const livros = await dbKnex("livros")
+            .where("titulo","like", `%${palavra}%`)
+            .orWhere("autor","like",`%${palavra}%`);
+            res.status(200).json(livros); //retorna statusCode ok e os dados
+        }catch(error){
+            res.status(400).json({msg:error.message}); //retorna status de erro e msg
+        }
 });
 
 
